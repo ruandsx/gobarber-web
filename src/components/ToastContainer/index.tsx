@@ -7,7 +7,7 @@ import { Container, Toast } from './styles';
 const ToastContainer: React.FC = () => {
   return (
     <Container>
-      <Toast>
+      <Toast hasDescription>
         <FiAlertCircle size={20} />
         <div>
           <strong>Aconteceu um erro</strong>
@@ -19,7 +19,7 @@ const ToastContainer: React.FC = () => {
         </button>
       </Toast>
 
-      <Toast type="success">
+      <Toast hasDescription type="success">
         <FiAlertCircle size={20} />
         <div>
           <strong>Aconteceu um erro</strong>
@@ -31,11 +31,10 @@ const ToastContainer: React.FC = () => {
         </button>
       </Toast>
 
-      <Toast type="error">
+      <Toast hasDescription={false} type="error">
         <FiAlertCircle size={20} />
         <div>
           <strong>Aconteceu um erro</strong>
-          <p>Não foi possível fazer o login</p>
         </div>
 
         <button type="button">
