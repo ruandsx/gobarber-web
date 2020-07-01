@@ -1,9 +1,14 @@
 import React from 'react';
 
+import { useAuth } from '../../hooks/auth';
+
+import Button from '../../components/Button';
+
 const Dashboard: React.FC = () => {
+  const { signOut } = useAuth();
   return (
     <div>
-      <h1>Dashboard</h1>
+      <Button onClick={signOut}>Sair do Dashboard</Button>
     </div>
   );
 };
