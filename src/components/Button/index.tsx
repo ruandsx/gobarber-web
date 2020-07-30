@@ -1,6 +1,5 @@
 import React, { ButtonHTMLAttributes } from 'react';
 
-import { boolean } from 'yup';
 import { Container } from './styles';
 
 // interface convertida em type para somente receber os atributos do butto
