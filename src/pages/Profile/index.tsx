@@ -1,22 +1,21 @@
 import React, { useCallback, useRef } from 'react';
-import { FiArrowLeft, FiUser, FiMail, FiLock } from 'react-icons/fi';
+import { FiUser, FiMail, FiLock, FiCamera, FiArrowLeft } from 'react-icons/fi';
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
 import * as Yup from 'yup';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 
 import api from '../../services/api';
 
 import { useToast } from '../../hooks/toast';
+import { useAuth } from '../../hooks/auth';
 
 import getValidationErrors from '../../utils/getValidationErrors';
-
-import logo from '../../assets/logo.svg';
 
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 
-import { Container, Content, AnimationContainer, Background } from './styles';
+import { Container, Content, AvatarInput } from './styles';
 
 interface ProfileFormData {
   name: string;
@@ -27,6 +26,8 @@ interface ProfileFormData {
 const Profile: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const { addToast } = useToast();
+  const { user } = useAuth();
+
   const history = useHistory();
 
   const handleSubmit = useCallback(
@@ -73,36 +74,56 @@ const Profile: React.FC = () => {
 
   return (
     <Container>
-      <Background />
-      <Content>
-        <AnimationContainer>
-          <img alt="GoBarber" src={logo} />
-
-          <Form ref={formRef} onSubmit={handleSubmit}>
-            <h1>Perfil</h1>
-
-            <Input icon={FiUser} name="name" placeholder="Nome" type="text" />
-            <Input
-              icon={FiMail}
-              name="email"
-              placeholder="E-mail"
-              type="text"
-            />
-            <Input
-              icon={FiLock}
-              name="password"
-              placeholder="Senha"
-              type="password"
-            />
-
-            <Button type="submit">Cadastrar</Button>
-          </Form>
-
-          <Link to="/">
+      <header>
+        <div>
+          <Link to="/dashboard">
             <FiArrowLeft />
-            Voltar para o Dashboard
           </Link>
-        </AnimationContainer>
+        </div>
+      </header>
+      <Content>
+        <Form
+          ref={formRef}
+          initialData={{
+            name: user.name,
+            email: user.email,
+          }}
+          onSubmit={handleSubmit}
+        >
+          <AvatarInput>
+            <img src={user.avatar_url} alt={user.name} />
+            <button type="button">
+              <FiCamera />
+            </button>
+          </AvatarInput>
+
+          <h1>Meu Perfil</h1>
+
+          <Input icon={FiUser} name="name" placeholder="Nome" type="text" />
+          <Input icon={FiMail} name="email" placeholder="E-mail" type="text" />
+
+          <Input
+            containerStyle={{ marginTop: 24 }}
+            icon={FiLock}
+            name="old_password"
+            placeholder="Senha atual"
+            type="password"
+          />
+          <Input
+            icon={FiLock}
+            name="password"
+            placeholder="Senha"
+            type="password"
+          />
+          <Input
+            icon={FiLock}
+            name="password_confirmation"
+            placeholder="Confirmar Senha"
+            type="password"
+          />
+
+          <Button type="submit">Confirmar mudanças</Button>
+        </Form>
       </Content>
     </Container>
   );
