@@ -26,7 +26,7 @@ interface ProfileFormData {
 const Profile: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const { addToast } = useToast();
-  const { user } = useAuth();
+  const { user, updateUser } = useAuth();
 
   const history = useHistory();
 
@@ -78,7 +78,10 @@ const Profile: React.FC = () => {
         const data = new FormData();
         data.append('avatar', e.target.files[0]);
 
-        await api.patch('/users/avatar', data).then(() => {
+        await api.patch('/users/avatar', data).then(response => {
+          updateUser(response.data);
+          console.log(response.data);
+
           addToast({
             type: 'success',
             title: 'Foto de perfil atualizada!',
@@ -86,7 +89,7 @@ const Profile: React.FC = () => {
         });
       }
     },
-    [addToast],
+    [addToast, updateUser],
   );
   return (
     <Container>
