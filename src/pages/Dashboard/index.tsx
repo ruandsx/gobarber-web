@@ -141,7 +141,13 @@ const Dashboard: React.FC = () => {
 
           <Profile>
             <Link to="/profile">
-              <img src={user.avatar_url} alt={user.name} />
+              <img
+                src={
+                  user.avatar_url ||
+                  'https://app-gobarber-ruan.s3.amazonaws.com/user.png'
+                }
+                alt={user.name}
+              />
             </Link>
 
             <div>
@@ -171,7 +177,10 @@ const Dashboard: React.FC = () => {
               <strong>Agendamento a seguir</strong>
               <div>
                 <img
-                  src={nextAppointment?.user.avatar_url}
+                  src={
+                    nextAppointment?.user.avatar_url ||
+                    'https://app-gobarber-ruan.s3.amazonaws.com/user.png'
+                  }
                   alt={nextAppointment?.user.name}
                 />
                 <strong>{nextAppointment?.user.name}</strong>
@@ -198,7 +207,10 @@ const Dashboard: React.FC = () => {
                 </span>
                 <div>
                   <img
-                    src={appointment.user.avatar_url}
+                    src={
+                      appointment.user.avatar_url ||
+                      'https://app-gobarber-ruan.s3.amazonaws.com/user.png'
+                    }
                     alt={appointment.user.name}
                   />
                   <strong>{appointment.user.name}</strong>
@@ -222,7 +234,10 @@ const Dashboard: React.FC = () => {
                 </span>
                 <div>
                   <img
-                    src={appointment.user.avatar_url}
+                    src={
+                      appointment.user.avatar_url ||
+                      'https://app-gobarber-ruan.s3.amazonaws.com/user.png'
+                    }
                     alt={appointment.user.name}
                   />
                   <strong>{appointment.user.name}</strong>

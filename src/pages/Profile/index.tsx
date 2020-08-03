@@ -146,7 +146,13 @@ const Profile: React.FC = () => {
           onSubmit={handleSubmit}
         >
           <AvatarInput>
-            <img src={user.avatar_url} alt={user.name} />
+            <img
+              src={
+                user.avatar_url ||
+                'https://app-gobarber-ruan.s3.amazonaws.com/user.png'
+              }
+              alt={user.name}
+            />
             <label htmlFor="avatar">
               <FiCamera />
               <input type="file" id="avatar" onChange={handleAvatarChange} />
