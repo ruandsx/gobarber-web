@@ -1,4 +1,4 @@
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook, act } from '@testing-library/react-hooks';
 import MockAdapter from 'axios-mock-adapter';
 
 import { useAuth, AuthProvider } from '../../hooks/auth';
@@ -42,5 +42,58 @@ describe('Auth Component', () => {
     );
 
     expect(result.current.user.email).toEqual('test@mail.com');
+  });
+
+  it('should restore saved date from storage when auth inits', async () => {
+    jest.spyOn(Storage.prototype, 'getItem').mockImplementation(key => {
+      switch (key) {
+        case '@GoBarber:token':
+          return 'fake-token';
+        case '@GoBarber:user':
+          return JSON.stringify({
+            id: 'fakeid',
+            name: 'Test User',
+            email: 'test@mail.com',
+          });
+        default:
+          return null;
+      }
+    });
+
+    const { result } = renderHook(() => useAuth(), {
+      wrapper: AuthProvider,
+    });
+
+    expect(result.current.user.email).toEqual('test@mail.com');
+  });
+
+  it('should be able to sign in', async () => {
+    jest.spyOn(Storage.prototype, 'getItem').mockImplementation(key => {
+      switch (key) {
+        case '@GoBarber:token':
+          return 'fake-token';
+        case '@GoBarber:user':
+          return JSON.stringify({
+            id: 'fakeid',
+            name: 'Test User',
+            email: 'test@mail.com',
+          });
+        default:
+          return null;
+      }
+    });
+
+    const removeItemSpy = jest.spyOn(Storage.prototype, 'removeItem');
+
+    const { result, waitForNextUpdate } = renderHook(() => useAuth(), {
+      wrapper: AuthProvider,
+    });
+
+    act(() => {
+      result.current.signOut();
+    });
+
+    expect(removeItemSpy).toHaveBeenCalledTimes(2);
+    expect(result.current.user).toBeUndefined();
   });
 });
