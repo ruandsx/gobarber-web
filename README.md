@@ -6,7 +6,7 @@
   ReactJS Application for GoBarber
 </h3>
 <h4 align="center">
-  (Click on image and go to the online version)
+  (Click on the image to go to the online version)
 </h4>
 
 [![GoBarber](assets/gobarber-web_banner.png)](https://gobarberapp.rxsoftwares.com/)
